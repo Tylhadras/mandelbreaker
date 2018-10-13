@@ -1,7 +1,7 @@
 # Mandelbreaker CLI
 Mandelbreaker is a CLI that splits a bigger image up into smaller parts,
 distributes the calculations needed for the smaller parts on one or more
-servers and then reassembles the parts as a .pgm picture.
+servers running mandelbreaker-server and then reassembles the parts as a .pgm picture.
 
 #Build
 The project is built using maven:
