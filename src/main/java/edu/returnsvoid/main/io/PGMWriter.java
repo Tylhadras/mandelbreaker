@@ -31,20 +31,24 @@ public class PGMWriter {
     }
 
     public void write() {
-
-        int subColumns = width / subImageWidth;
-        int subRows = height / subImageHeight;
-        int numberOfSubImages = subColumns * subRows;
+        int subImagesPerRow = width / subImageWidth;
+        int subImagesPerColumn = height / subImageHeight;
+        int numberOfSubImages = subImagesPerRow * subImagesPerColumn;
 
         List<List<SubImage>> rows = new ArrayList<>();
 
-        for (int z = 0; z < numberOfSubImages; z += subColumns) {
-            int maxIndex = z + subColumns;
+        for (int z = 0; z < numberOfSubImages; z += subImagesPerRow) {
+            int maxIndex = z + subImagesPerRow;
             int minIndex = z;
-            rows.add(subImageMap.entrySet().stream().filter(entry -> entry.getKey() < maxIndex && entry.getKey() >= minIndex)
+            rows.add(subImageMap.entrySet().stream()
+                    .filter(entry -> entry.getKey() < maxIndex && entry.getKey() >= minIndex)
                     .map(Map.Entry::getValue).collect(Collectors.toList()));
         }
 
+        writeToFile(rows);
+    }
+
+    private void writeToFile(List<List<SubImage>> rows) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("./a.pgm"))) {
             bw.write("P2\n" + width + " " + height + "\n" + "255\n");
 

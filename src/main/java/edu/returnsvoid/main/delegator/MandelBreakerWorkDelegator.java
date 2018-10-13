@@ -52,9 +52,8 @@ public class MandelBreakerWorkDelegator {
 
         Map<Integer, SubImage> subImageMap = createSubImageMap();
 
-        subImageMap.entrySet().parallelStream().forEach(subImageEntry -> {
-            executeQuery(servers[subImageEntry.getKey() % serverCount], subImageEntry);
-        });
+        subImageMap.entrySet().parallelStream().forEach(
+                subImageEntry -> executeQuery(servers[subImageEntry.getKey() % serverCount], subImageEntry));
 
         new PGMWriter(width, height, subImageWidth, subImageHeight, subImageMap).write();
     }
