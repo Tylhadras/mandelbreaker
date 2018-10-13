@@ -17,11 +17,6 @@ public class MandelBreakerClientMain {
     private static final Options OPTIONS = MandelBreakerCLIOptions.initOptions();
 
     public static void main(String[] args) {
-        //TODO Get all flags
-        //TODO Split the job
-        //TODO Call servers in every split job
-        //TODO Reassemble all answers as a .pgm image
-        //TODO Write README for both projects
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine commandLine = parser.parse(OPTIONS, args);
