@@ -32,39 +32,31 @@ public class PGMWriter {
 
     public void write() {
 
-        List<Integer> printOrderedList = new ArrayList<>();
-
-        int subImagesPerRow = width / subImageWidth;
-        int subImagesPerColumn = height / subImageHeight;
-        int numberOfSubImages = subImagesPerRow * subImagesPerColumn;
+        int subColumns = width / subImageWidth;
+        int subRows = height / subImageHeight;
+        int numberOfSubImages = subColumns * subRows;
 
         List<List<SubImage>> rows = new ArrayList<>();
 
-        for (int z = 0; z < numberOfSubImages; z += subImagesPerRow) {
-            int maxIndex = z + subImagesPerRow;
+        for (int z = 0; z < numberOfSubImages; z += subColumns) {
+            int maxIndex = z + subColumns;
             int minIndex = z;
             rows.add(subImageMap.entrySet().stream().filter(entry -> entry.getKey() < maxIndex && entry.getKey() >= minIndex)
                     .map(Map.Entry::getValue).collect(Collectors.toList()));
         }
 
-        for (List<SubImage> subImageRow : rows) {
-            for (int x = 0; x < subImageWidth; x++) {
-                for (SubImage image : subImageRow) {
-                    for (int y = 0; y < subImageHeight; y++) {
-                        printOrderedList.add(image.getData()[x][y]);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("./a.pgm"))) {
+            bw.write("P2\n" + width + " " + height + "\n" + "255\n");
+
+            for (List<SubImage> subImageRow : rows) {
+                for (int y = 0; y < subImageHeight; y++) {
+                    for (SubImage image : subImageRow) {
+                        for (int x = 0; x < subImageWidth; x++) {
+                            bw.write(image.getData()[x][y] + " ");
+                        }
+                        bw.write("\n");
                     }
                 }
-            }
-        }
-
-        writeToFile(printOrderedList);
-    }
-
-    private void writeToFile(List<Integer> output) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("./a.pgm"))) {
-            bw.write("P2\n" + width + " " + height + "\n" + "10\n");
-            for (Integer integer : output) {
-                bw.write(integer + " ");
             }
         } catch (IOException e) {
             LOG.error("Cannot write to output file", e);

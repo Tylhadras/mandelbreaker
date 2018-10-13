@@ -50,8 +50,6 @@ public class MandelBreakerWorkDelegator {
             System.exit(2);
         }
 
-        createSubImageMap();
-
         Map<Integer, SubImage> subImageMap = createSubImageMap();
 
         subImageMap.entrySet().parallelStream().forEach(subImageEntry -> {
@@ -97,7 +95,7 @@ public class MandelBreakerWorkDelegator {
                 double subImageMinCReal = minCReal + (x * stepCountReal);
                 double subImageMaxCReal = subImageMinCReal + (subImageWidth * stepCountReal);
                 double subImageMinCImg = minCImg + (y * stepCountImg);
-                double subImageMaxCImg = subImageMinCImg + (y * stepCountImg);
+                double subImageMaxCImg = subImageMinCImg + (subImageHeight * stepCountImg);
                 subImageMap.put(index, new SubImage(subImageMinCReal, subImageMaxCReal, subImageMinCImg, subImageMaxCImg));
                 index++;
             }
