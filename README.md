@@ -3,14 +3,14 @@ Mandelbreaker is a CLI that splits a bigger image up into smaller parts,
 distributes the calculations needed for the smaller parts on one or more
 servers running mandelbreaker-server and then reassembles the parts as a .pgm picture.
 
-#Build
+# Build
 The project is built using maven:
 ~~~
     mvn clean install
 ~~~
 Will create a runnable jar in the target directory of the project.
 
-#Usage
+# Usage
 The following program arguments are mandatory:
 * -mincr: Minimum value of real part of C across total picture
 * -maxcr: Maximum value of real part of C across total picture
@@ -29,6 +29,6 @@ Example:
      -maxcim <double> -px <int> -py <int> -x <int> -y <int> -i <int> -s <string...>
 ~~~
 
-##Output
+## Output
 The resulting reassembled picture will be output as a.pgm. Please save it as something else before running again if you 
 would like to save the result of a run.
